@@ -3,8 +3,8 @@ const express = require('express')
 const cors = require('cors')
 const {  find, findById, insert, update, remove} = require('./data/db')
 
-const port = 8080
-const host = '127.0.0.1'
+const port = process.env.PORT || 8080
+const host = process.env.HOST || '0.0.0.0'
 const app = express()
 
 app.use(express.json())
@@ -12,6 +12,13 @@ app.use(cors())
 
 app.listen(port, host, () => {
     console.log(`server running at http://${host}:${port}`)
+})
+
+app.get("/", (req, res) => {
+	res.json({
+		message: "Welcome to our API",
+		cohort: process.env.cohort,
+	})
 })
 
 app.post('/api/users', (req, res) => {
